@@ -64,11 +64,15 @@ $props = [ordered]@{'ComputerName'=$Computer;
            'UsersInAdminAG'=$AdminGroup.samAccountName;
            'VMTools'=$VMTools.ToolStatus;
            'VMToolsVersion'=$VMTools.ToolsVersion;
-           'CrowdStrike Falcon'=$CSFalconService.status.tostring();
-           'Splunk Forwarder'=$SplunkForwarder.status.tostring();
+            #'CrowdStrike Falcon'=$CSFalconService.status.tostring();
+            #'Splunk Forwarder'=$SplunkForwarder.status.tostring();
                }
+               
 $obj = New-Object -TypeName PSObject -Property $Props
-       Write-Output $obj | Format-List -AutoSize -wrap
+       Write-Output $obj 
+
+    Invoke-command -computername $Computer {get-service csfalconservice}
+    Invoke-command -computername $Computer {get-service splunkforwarder}
 
     }
 }
